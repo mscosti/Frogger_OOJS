@@ -28,10 +28,10 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function(){
     this.x = 0;
-    this.y = 0;
+    this.y = 5;
     this.sprite = 'images/char-boy.png';
 }
-Player.prototype.update = function(dt) {
+Player.prototype.update = function() {
 
 }
 Player.prototype.render = function() {
@@ -41,16 +41,24 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(direction) {
     switch(direction){
         case 'down':
-            this.y++;
+            if (this.y < 5){
+                this.y++;
+            }
             break;
         case 'up':
-            this.y--;
+            if (this.y > 0){
+                this.y--;
+            }
             break;
         case 'left':
-            this.x--;
+            if (this.x > 0){
+                this.x--;
+            }
             break;
         case 'right':
-            this.x++;
+            if (this.x < 4){
+                this.x++;
+            }
             break;
     }
 }
