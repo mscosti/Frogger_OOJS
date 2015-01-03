@@ -35,7 +35,6 @@ var Engine = function(global) {
     canvas.height = 707;
     overlay.width = 1000;
     overlay.height = 707;
-    // doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -115,7 +114,8 @@ var Engine = function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
         var rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/grass-block.png',   // Row 1 of 1 of grass
@@ -148,6 +148,7 @@ var Engine = function(global) {
 
 
         renderEntities();
+        renderOverlay();
     }
 
     /* This function is called by the render function and is called on each game
@@ -182,7 +183,8 @@ var Engine = function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 
@@ -191,4 +193,5 @@ var Engine = function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+    global.overlayCtx = overlayCtx;
 }
