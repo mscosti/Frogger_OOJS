@@ -8,13 +8,17 @@ var getRandomInt = function(min, max) {
 
 
 
-var Moveable = function(sprite, init_x, init_y) {
+var Moveable = function(sprite, init_row, init_col) {
     this.sprite = sprite;
-    this.x = init_x;
-    this.y = init_y;
+    this.moveTo(init_row,init_col);
 }
 Moveable.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+Moveable.prototype.moveTo = function(row,col,y_offset) {
+	y_offset = typeof y_offset !== 'undefined' ? y_offset : 0;
+	this.x = this.colToX(col);
+    this.y = this.rowToY(row) + y_offset;
 }
 Moveable.prototype.randXFromCol= function(min,max) {
     var col = getRandomInt(min,max);
@@ -24,5 +28,5 @@ Moveable.prototype.randYFromRows = function(min,max) {
     var row = getRandomInt(min,max);
     return this.rowToY(row);
 }
-Moveable.prototype.rowToY = function(row){ return row * 80; }
+Moveable.prototype.rowToY = function(row){ return row * 83; }
 Moveable.prototype.colToX = function(col){ return col * 101; }

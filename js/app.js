@@ -1,9 +1,10 @@
 
 // Enemies our player must avoid
 var Enemy = function() {
+    this.y_offset = -20
     Moveable.call(this,'images/enemy-bug.png',0,0);
     Enemy.prototype.constructor = Enemy;
-    this.y = this.randYFromRows(2,4);
+    this.y = this.randYFromRows(2,4) + this.y_offset;
 }
 Enemy.prototype = Object.create(Moveable.prototype);
 
@@ -20,41 +21,44 @@ Enemy.prototype.update = function(dt) {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(){
-    Moveable.call(this, 'images/char-boy.png', 2, 5);
+    this.y_offset = -35; // 25 pixels to center feet in tiles
+    this.row = 5;
+    this.col = 2;
+    Moveable.call(this, 'images/char-boy.png', this.row, this.col);
     Player.prototype.constructor = Player;
 }
 Player.prototype = Object.create(Moveable.prototype);
 
 Player.prototype.update = function() {
+    this.moveTo(this.row, this.col,this.y_offset);
+}
 
-}
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x * 101, (this.y * 83) + 41);
-}
 
 Player.prototype.handleInput = function(direction) {
     switch(direction){
         case 'down':
-            // if (this.y < 5){
-                this.y++;
-            // }
+            if (this.row < 6){
+                this.row++;
+            }
             break;
         case 'up':
-            if (this.y > 0){
-                this.y--;
+            if (this.row > 1){
+                this.row--;
             }
             break;
         case 'left':
-            if (this.x > 0){
-                this.x--;
+            if (this.col > 0){
+                this.col--;
             }
             break;
         case 'right':
-            if (this.x < 4){
-                this.x++;
+            if (this.col < 4){
+                this.col++;
             }
             break;
     }
+    console.log(this.row);
+    console.log(this.col);
 }
 
 // Now instantiate your objects.
