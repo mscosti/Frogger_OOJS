@@ -1,8 +1,7 @@
 var checkEnemyCollisionsWithPlayer = function() {
     allEnemies.forEach(function(enemy) {
-        var colide = enemy.checkCollision(player);
-        console.log(colide);
-        // else console.log("hi");
+        var collide = enemy.checkCollision(player);
+        if (collide) player.hit();
     });
 }
 
@@ -18,6 +17,8 @@ var Enemy = function() {
 Enemy.prototype = Object.create(Moveable.prototype);
 
 Enemy.prototype.reSpawn = function(){
+    this.offScreen = false;
+    this.respawnDelay = getRandomInt(500,2000);
     this.velocity = getRandomInt(40,200); // px per second
     this.x = this.colToX(0); 
     this.y = this.randYFromRows(2,4) + this.y_offset;
@@ -25,11 +26,16 @@ Enemy.prototype.reSpawn = function(){
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     if ( this.x > ctx.canvas.width ) {
-        this.reSpawn();
+        // Lock once entered to ensure multiple
+        // timeOut callbacks are set up while waiting
+        // for the reSpawn to happen
+        if (!this.offScreen){
+            this.offScreen = true;
+            console.log("HIII");
+            var that = this;
+            setTimeout( function(){that.reSpawn()}, that.respawnDelay );
+        }
     }
     else{
         var displacement = (this.velocity * dt);
@@ -51,8 +57,12 @@ var Player = function(){
 Player.prototype = Object.create(Moveable.prototype);
 
 Player.prototype.hit = function() {
-
+    this.lives -= 1;
+    this.row = 5;
+    this.col = 2;
+    this.moveTo(this.row,this.col,this.y_offset);
 }
+
 Player.prototype.update = function() {
     this.moveTo(this.row, this.col,this.y_offset);
 }
