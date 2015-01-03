@@ -17,16 +17,15 @@ var Moveable = function(sprite, init_row, init_col, width, height) {
  * Check for collisions between two moveable pieces' centroids
  */
 Moveable.prototype.checkCollision = function (moveable){
-	// console.log(this.y.toString() + " " + moveable.y.toString());
-	var c1 = {x: this.x + (this.width/2), 
-			  y: this.y - (this.height/2)};
-	var c2 = {x: moveable.x + (moveable.width/2), 
-			  y: moveable.y - (moveable.height/2)};
-	if (this.xToCol(c1.x) == this.xToCol(c2.x) && 
-		this.yToRow(c1.y) == this.yToRow(c2.y)) {
-			return true;
-		}
-	else return false;
+	var circle1 = {radius: this.width/3, x: this.x, y: this.y};
+	var circle2 = {radius: moveable.width/3, x: moveable.x, y: moveable.y};
+
+	var dx = (circle1.x + circle1.radius) - (circle2.x + circle2.radius);
+	var dy = (circle1.y + circle1.radius) - (circle2.y + circle2.radius);
+	var distance = Math.sqrt(dx * dx + dy * dy);
+
+	if (distance < circle1.radius + circle2.radius) return true
+	else return false
 }
 Moveable.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
