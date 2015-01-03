@@ -13,21 +13,29 @@
  * the canvas' context (ctx) object globally available to make writing app.js
  * a little simpler to work with.
  */
+var global = this;
+$( document ).ready(function() {
+    Engine(global)
+});
 
-var Engine = (function(global) {
+var Engine = function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
     var doc = global.document,
         win = global.window,
-        canvas = doc.createElement('canvas'),
+        canvas = $('#game')[0],
+        overlay = $('#overlay')[0],
         ctx = canvas.getContext('2d'),
+        overlayCtx = overlay.getContext('2d'),
         lastTime;
 
     canvas.width = 505;
     canvas.height = 707;
-    doc.body.appendChild(canvas);
+    overlay.width = 1000;
+    overlay.height = 707;
+    // doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -183,4 +191,4 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
-})(this);
+}
