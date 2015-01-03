@@ -1,20 +1,32 @@
 
 // Enemies our player must avoid
 var Enemy = function() {
-    this.y_offset = -20
+    this.y_offset = -20;
     Moveable.call(this,'images/enemy-bug.png',0,0);
     Enemy.prototype.constructor = Enemy;
-    this.y = this.randYFromRows(2,4) + this.y_offset;
+    this.reSpawn();
+    
 }
 Enemy.prototype = Object.create(Moveable.prototype);
 
+Enemy.prototype.reSpawn = function(){
+    this.velocity = getRandomInt(40,200); // px per second
+    this.x = this.colToX(0); 
+    this.y = this.randYFromRows(2,4) + this.y_offset;
+}
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-
+    if ( this.x > ctx.canvas.width ) {
+        this.reSpawn();
+    }
+    else{
+        var displacement = (this.velocity * dt);
+        this.x = this.x + displacement;
+    }
 }
 
 // Now write your own player class
