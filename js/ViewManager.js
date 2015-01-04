@@ -1,19 +1,23 @@
-function ViewManager(gameManager, doc, win){
+function ViewManager(gameManager, global){
     // reference back to itself for callback access to this
     var self = this;
+
+    var doc = global.document;
+    var win = global.window;
 
     var gameManager = gameManager,
         canvas = $('#game')[0],
         overlay = $('#overlay')[0],
         ctx = canvas.getContext('2d'),
         overlayCtx = overlay.getContext('2d'),
+        renderables = [],
         numRows = 7,
         numCols = 5;
 
     /* This array holds the relative URL to the image used
-     * for that particular row of the game level.
+     * for that particular row of the game grid.
      */
-    this.rowImages = [
+    var rowImages = [
             'images/water-block.png',   // Top row is water
             'images/grass-block.png',   // Row 1 of 1 of grass
             'images/stone-block.png',   // Row 1 of 3 of stone
@@ -42,18 +46,26 @@ function ViewManager(gameManager, doc, win){
         var self = this;
         Resources.onReady(function(){
             // Everything is initialized, flag we are ready
-            self.setReady();
+            self.loaded = true;
         });
     };
 
-    this.setReady = function() {
-        this.loaded = true;
-    };
+    this.addRenderables = function(renderable) {
+        if (renderable instanceof Array){
+            renderable.forEach(function(renderable){
+                renderables.push(renderable);
+            });
+        }
+        else{
+            renderables.push(renderable);
+        }
+    }
 
     this.render = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
         this.renderGrid();
+        this.renderRenderables();
     };
 
     this.renderGrid = function(){
@@ -64,19 +76,14 @@ function ViewManager(gameManager, doc, win){
          */
         for (var row = 0; row < numRows; row++) {
             for (var col = 0; col < numCols; col++) {
-                /* The drawImage function of the canvas' context element
-                 * requires 3 parameters: the image to draw, the x coordinate
-                 * to start drawing and the y coordinate to start drawing.
-                 * We're using our Resources helpers to refer to our images
-                 * so that we get the benefits of caching these images, since
-                 * we're using them over and over.
-                 */
-                // console.log("in render grid");
-                // console.log(ctx);
-                // console.log(Resources.isReady());
-                // console.log(Resources.get(this.rowImages[row]));
-                ctx.drawImage(Resources.get(this.rowImages[row]), col * 101, row * 83);
+                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
     };
+
+    this.renderRenderables = function() {
+        renderables.forEach(function(renderable){
+            renderable.render(ctx,overlayCtx);
+        });
+    }
 }

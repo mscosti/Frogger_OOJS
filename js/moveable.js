@@ -27,7 +27,7 @@ Moveable.prototype.checkCollision = function (moveable){
 	if (distance < circle1.radius + circle2.radius) return true
 	else return false
 }
-Moveable.prototype.render = function() {
+Moveable.prototype.render = function(ctx,overlayCtx) {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 Moveable.prototype.moveTo = function(row,col,y_offset) {

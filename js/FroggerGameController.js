@@ -1,27 +1,28 @@
 
 function FroggerGameController(global, enemies, player) {
-    this.allEnemies = enemies;
-    this.player = player;
-    this.lastTime;
-
-    var viewManager = new ViewManager(this,global.document, global.window);
-    var win = global.window;
     var self = this;
+
+    var allEnemies = enemies;
+    var player = player;
+    var lastTime;
+
+    var viewManager = new ViewManager(this,global);
+    var win = global.window;
 
     // initialize and load all resources the game and viewManager needs
     viewManager.init();
+    viewManager.addRenderables(enemies);
+    viewManager.addRenderables(player);
 
     this.main = function main() {
-        viewManager.render();
         /**
             main game logic loop
-            Will handle telling viewManager to render,
             managiing time in the game,
             checking collisions,
             checking player events like health, getting items etc,
             determining win/loss
         **/
-        // console.log(this.viewManager);
+        viewManager.render();
         win.requestAnimationFrame(main);
     };
 
@@ -48,8 +49,17 @@ function FroggerGameController(global, enemies, player) {
     };
 }
 
+// Temporary calling script until controller factory is written
 var global = this;
 $( document ).ready(function() {
-    var frogger = new FroggerGameController(global, [], {});
+    var numEnemies = 3;
+    allEnemies = [];
+    for (var i = 0; i < numEnemies; i++){
+    allEnemies.push(new Enemy());
+    }
+
+    player = new Player();
+
+    var frogger = new FroggerGameController(global, allEnemies, player);
     frogger.startGame();
 });
