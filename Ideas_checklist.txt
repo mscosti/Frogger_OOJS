@@ -1,0 +1,7 @@
+Ideas Checklist:
+- feature: lives and death
+- feature: restart game
+- feature: deathscreen
+- feature: startgame screen
+- feature: character select
+- feature: pause game
