@@ -1,4 +1,4 @@
-var viewManager = function(gameManager, doc, win){
+function viewManager(gameManager, doc, win){
     // reference back to itself for callback access to this
     var self = this;
 
@@ -13,7 +13,7 @@ var viewManager = function(gameManager, doc, win){
     /* This array holds the relative URL to the image used
      * for that particular row of the game level.
      */
-    var rowImages = [
+    this.rowImages = [
             'images/water-block.png',   // Top row is water
             'images/grass-block.png',   // Row 1 of 1 of grass
             'images/stone-block.png',   // Row 1 of 3 of stone
@@ -35,25 +35,27 @@ var viewManager = function(gameManager, doc, win){
         ]);
         // Everything is initialized, we can start the game
         Resources.onReady(function(){
-            self.ready = true;
+            self.ready = "HELLO";
         });
-    }
+        this.ready = true;
+    };
 
     this.render = function() {
         console.log("here!");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
-        renderGrid();
-    }
+        this.renderGrid();
+    };
 
-    var renderGrid = function(){
+    this.renderGrid = function(){
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
          * portion of the "grid"
          */
-        for (var row = 0; row < numRows; row++) {
-            for (var col = 0; col < numCols; col++) {
+         var row, col;
+        for (row = 0; row < numRows; row++) {
+            for (col = 0; col < numCols; col++) {
                 /* The drawImage function of the canvas' context element
                  * requires 3 parameters: the image to draw, the x coordinate
                  * to start drawing and the y coordinate to start drawing.
@@ -61,8 +63,10 @@ var viewManager = function(gameManager, doc, win){
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                console.log(ctx);
+                console.log(Resources.get(this.rowImages[row]));
+                ctx.drawImage(Resources.get(this.rowImages[row]), col * 101, row * 83);
             }
         }
-    }
+    };
 }
