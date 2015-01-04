@@ -26,18 +26,19 @@ Enemy.prototype.reSpawn = function(){
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
+    // console.log(this);
     if ( this.x > ctx.canvas.width ) {
         // Lock once entered to ensure multiple
         // timeOut callbacks are set up while waiting
         // for the reSpawn to happen
         if (!this.offScreen){
             this.offScreen = true;
-            console.log("HIII");
             var that = this;
             setTimeout( function(){that.reSpawn()}, that.respawnDelay );
         }
     }
     else{
+        // console.log(this.x);
         var displacement = (this.velocity * dt);
         this.x = this.x + displacement;
     }
@@ -96,25 +97,25 @@ Player.prototype.handleInput = function(direction) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var numEnemies = 3;
-allEnemies = [];
-for (var i = 0; i < numEnemies; i++){
-    allEnemies.push(new Enemy());
-}
+// var numEnemies = 3;
+// allEnemies = [];
+// for (var i = 0; i < numEnemies; i++){
+//     allEnemies.push(new Enemy());
+// }
 
-player = new Player();
+// player = new Player();
 
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
+// document.addEventListener('keyup', function(e) {
+//     var allowedKeys = {
+//         37: 'left',
+//         38: 'up',
+//         39: 'right',
+//         40: 'down'
+//     };
 
-    player.handleInput(allowedKeys[e.keyCode]);
-});
+//     player.handleInput(allowedKeys[e.keyCode]);
+// });
 

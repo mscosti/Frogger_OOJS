@@ -65,7 +65,7 @@ function ViewManager(gameManager, global){
 
     this.render = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+        overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
         this.renderGrid();
         this.renderRenderables();
     };

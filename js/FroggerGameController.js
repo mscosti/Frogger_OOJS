@@ -5,16 +5,23 @@ function FroggerGameController(global, enemies, player) {
     var allEnemies = enemies;
     var player = player;
     var lastTime;
+    var gameOver = false;
 
     var viewManager = new ViewManager(this,global);
+    var stateView = new StateView(player);
     var win = global.window;
 
     // initialize and load all resources the game and viewManager needs
     viewManager.init();
     viewManager.addRenderables(enemies);
     viewManager.addRenderables(player);
+    viewManager.addRenderables(stateView);
 
     this.main = function main() {
+        if (gameOver){
+            self.endGame();
+            return;
+        }
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -30,6 +37,7 @@ function FroggerGameController(global, enemies, player) {
         **/
         self.updateEntities(dt);
         self.checkEnemyCollisionsWithPlayer();
+        self.checkGameOver();
         viewManager.render();
 
         lastTime = now;
@@ -44,7 +52,6 @@ function FroggerGameController(global, enemies, player) {
             self.reset();
             lastTime = Date.now();
             self.main();
-
         }
         else{
             /*
@@ -55,11 +62,23 @@ function FroggerGameController(global, enemies, player) {
         }
     };
 
+    this.checkGameOver = function(){
+        if (player.lives == 0){
+            console.log("gameover");
+            gameOver = true;
+        }
+    }
+
+    this.endGame = function(){
+        console.log("game over");
+    }
+
     this.updateEntities = function(dt){
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
         player.update();
+        stateView.update(player);
     }
 
     this.checkEnemyCollisionsWithPlayer = function() {
@@ -81,7 +100,7 @@ function FroggerGameController(global, enemies, player) {
         var uiKeys = {
 
         };
-        console.log(player.row);
+        console.log(e.keyCode);
         player.handleInput(playerKeys[e.keyCode]);
     }
 
