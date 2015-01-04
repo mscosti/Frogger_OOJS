@@ -15,14 +15,25 @@ function FroggerGameController(global, enemies, player) {
     viewManager.addRenderables(player);
 
     this.main = function main() {
+        /* Get our time delta information which is required if your game
+         * requires smooth animation. Because everyone's computer processes
+         * instructions at different speeds we need a constant value that
+         * would be the same for everyone (regardless of how fast their
+         * computer is) - hurray time!
+         */
+        var now = Date.now(),
+            dt = (now - lastTime) / 1000.0;
         /**
             main game logic loop
-            managiing time in the game,
-            checking collisions,
             checking player events like health, getting items etc,
             determining win/loss
         **/
+        self.updateEntities(dt);
+        self.checkEnemyCollisionsWithPlayer();
         viewManager.render();
+
+        lastTime = now;
+
         win.requestAnimationFrame(main);
     };
 
@@ -30,6 +41,8 @@ function FroggerGameController(global, enemies, player) {
     this.startGame = function startGame(){
 
         if (viewManager.loaded){
+            self.reset();
+            lastTime = Date.now();
             self.main();
 
         }
@@ -41,6 +54,36 @@ function FroggerGameController(global, enemies, player) {
             win.requestAnimationFrame(startGame)
         }
     };
+
+    this.updateEntities = function(dt){
+        allEnemies.forEach(function(enemy) {
+            enemy.update(dt);
+        });
+        player.update();
+    }
+
+    this.checkEnemyCollisionsWithPlayer = function() {
+        allEnemies.forEach(function(enemy) {
+            var collide = enemy.checkCollision(player);
+            if (collide) player.hit();
+        });
+    }
+
+    this.keyHandle = function keyHandle(e){
+        var playerKeys = {
+            37: 'left',
+            38: 'up',
+            39: 'right',
+            40: 'down'
+        };
+
+        // example of other key stuff
+        var uiKeys = {
+
+        };
+        console.log(player.row);
+        player.handleInput(playerKeys[e.keyCode]);
+    }
 
     this.reset = function() {
         /**
@@ -61,5 +104,6 @@ $( document ).ready(function() {
     player = new Player();
 
     var frogger = new FroggerGameController(global, allEnemies, player);
+    document.addEventListener('keyup', function(e){frogger.keyHandle(e);} );
     frogger.startGame();
 });

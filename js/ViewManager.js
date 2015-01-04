@@ -14,6 +14,8 @@ function ViewManager(gameManager, global){
         numRows = 7,
         numCols = 5;
 
+    global.ctx = ctx;
+    global.overlayCtx = overlayCtx;
     /* This array holds the relative URL to the image used
      * for that particular row of the game grid.
      */
@@ -63,7 +65,7 @@ function ViewManager(gameManager, global){
 
     this.render = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+        // overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
         this.renderGrid();
         this.renderRenderables();
     };

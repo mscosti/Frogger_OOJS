@@ -1,4 +1,5 @@
 Ideas Checklist:
+- feature: character movement...
 - feature: lives and death
 - feature: restart game
 - feature: deathscreen
