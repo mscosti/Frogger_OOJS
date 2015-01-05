@@ -4,7 +4,9 @@ Ideas Checklist:
 - feature: startgame screen
 - feature: character select
 - feature: pause game
+- feature: score-track
 
 done:
 - feature: character movement... 
 - feature: lives and death
+- feature: buttons

@@ -71,6 +71,7 @@ function FroggerGameController(global, enemies, player) {
 
     this.endGame = function(){
         console.log("game over");
+        stateView.showEndGame();
     }
 
     this.updateEntities = function(dt){
@@ -78,7 +79,6 @@ function FroggerGameController(global, enemies, player) {
             enemy.update(dt);
         });
         player.update();
-        stateView.update(player);
     }
 
     this.checkEnemyCollisionsWithPlayer = function() {

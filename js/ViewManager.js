@@ -16,6 +16,8 @@ function ViewManager(gameManager, global){
 
     global.ctx = ctx;
     global.overlayCtx = overlayCtx;
+    global.canvas = canvas;
+    global.overlay = overlay;
     /* This array holds the relative URL to the image used
      * for that particular row of the game grid.
      */
