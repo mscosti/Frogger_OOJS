@@ -12,19 +12,29 @@ function StateView(player, enemies) {
 		drawLives();
 	};
 
-	this.showEndGame = function(func) {
+	this.showEndGame = function(restart,menu) {
 		var octx = overlayCtx;
 		var menuW = 560;
 		var menuH = 260;
 		var menuCX = overlay.width/2 - menuW/2;
 		var menuCY = overlay.height/2 - menuH/2;
+		overlayCtx.drawImage(Resources.get('images/game-over.png'),menuCX,menuCY);
+		// Restart Button
 		var restartX = overlay.width/2 + 40;
 		var restartY = overlay.height/2 + 35;
-		overlayCtx.drawImage(Resources.get('images/game-over.png'),menuCX,menuCY);
 		overlayCtx.drawImage(Resources.get('images/restart-btn.png'),restartX,restartY);
 		buttons["restart"].setDimensions(restartX,restartY,181,56);
 		buttons["restart"].enabled = true;
-		buttons["restart"].setFunction(func);
+		buttons["restart"].setFunction(restart);
+
+		// Menu Button
+		var menuX = overlay.width/2 - 181 - 40;
+		var menuY = overlay.height/2 + 35;
+		overlayCtx.drawImage(Resources.get('images/menu-btn.png'),menuX,menuY);
+		buttons["menu"].setDimensions(menuX,menuY,181,56);
+		buttons["menu"].enabled = true;
+		buttons["menu"].setFunction(menu);
+
 	};
 
 	this.clearEndGame = function() {
