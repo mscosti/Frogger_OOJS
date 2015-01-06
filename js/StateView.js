@@ -3,7 +3,7 @@ function StateView(player, enemies) {
 	var player = player;
 	var heart = 'images/Heart.png';
 	var buttons = {};
-	var restartBtn = new CanvasButton("restart",300,300,200,50,"blue","restart","orange");
+	var restartBtn = new CanvasButton("restart");
 	buttons["restart"] = restartBtn;
 
 	console.log(overlay);
@@ -15,7 +15,15 @@ function StateView(player, enemies) {
 
 	this.showEndGame = function(func) {
 		var octx = overlayCtx;
-		buttons["restart"].draw(octx);
+		var menuW = 560;
+		var menuH = 260;
+		var menuCX = overlay.width/2 - menuW/2;
+		var menuCY = overlay.height/2 - menuH/2;
+		var restartX = overlay.width/2 + 40;
+		var restartY = overlay.height/2 + 35;
+		overlayCtx.drawImage(Resources.get('images/game-over.png'),menuCX,menuCY);
+		overlayCtx.drawImage(Resources.get('images/restart-btn.png'),restartX,restartY);
+		buttons["restart"].setDimensions(restartX,restartY,181,56);
 		buttons["restart"].enabled = true;
 		buttons["restart"].setFunction = func;
 	};
@@ -62,12 +70,12 @@ function StateView(player, enemies) {
 
 function CanvasButton(id,x,y,w,h,bgFill,text,textFill) {
 	this.enabled = false;
-	this.x = x;
-	this.y = y;
-	this.w = w;
-	this.h = h;
+	this.x = x || 0;
+	this.y = y || 0;
+	this.w = w || 100;
+	this.h = h || 100;
 	this.fill = bgFill || "yellow";
-	this.text = text || "helloo";
+	this.text = text || "";
 	this.txtFill = textFill || "red";
 };
 CanvasButton.prototype.draw = function(ctx){
@@ -83,6 +91,12 @@ CanvasButton.prototype.contains = function(mx, my) {
 	return  (this.x <= mx) && (this.x + this.w >= mx) &&
 			(this.y <= my) && (this.y + this.h >= my);
 };
+CanvasButton.prototype.setDimensions = function(x,y,w,h){
+	this.x = x;
+	this.y = y;
+	this.w = w;
+	this.h = h;
+}
 CanvasButton.prototype.setFunction = function(func){
 	this.func = func;
 };

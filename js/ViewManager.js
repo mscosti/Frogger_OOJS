@@ -44,7 +44,10 @@ function ViewManager(gameManager, global){
             'images/grass-block.png',
             'images/enemy-bug.png',
             'images/char-boy.png',
-            'images/Heart.png'
+            'images/Heart.png',
+            'images/game-over.png',
+            'images/restart-btn.png',
+            'images/menu-btn.png'
         ]);
 
         var self = this;
