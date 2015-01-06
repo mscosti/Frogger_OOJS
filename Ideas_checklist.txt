@@ -1,12 +1,18 @@
 Ideas Checklist:
-- feature: restart game
-- feature: deathscreen
 - feature: startgame screen
 - feature: character select
-- feature: pause game
+- feature: coins (like snake, one appearing at a time)
 - feature: score-track
+- feature: improve overall game apearance
+		- side screen with:
+			lives
+			points
+- nice-to-have: pause game
+- nice-to-have: hover button animation
 
 done:
 - feature: character movement... 
 - feature: lives and death
 - feature: buttons
+- feature: restart game
+- feature: deathscreen

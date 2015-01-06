@@ -2,11 +2,10 @@ function StateView(player, enemies) {
 
 	var player = player;
 	var heart = 'images/Heart.png';
-	var buttons = {};
-	var restartBtn = new CanvasButton("restart");
-	buttons["restart"] = restartBtn;
 
-	console.log(overlay);
+	var buttons = {'restart': new CanvasButton("restart"),
+					'menu': new CanvasButton("menu")};
+
 	overlay.addEventListener('mousedown', function(e) { handleButtons(e); });
 
 	this.render = function(){
@@ -30,7 +29,7 @@ function StateView(player, enemies) {
 
 	this.clearEndGame = function() {
 		Object.keys(buttons).forEach(function(id){
-			buttons[id].enabled == false;
+			buttons[id].enabled = false;
 		});
 	};
 

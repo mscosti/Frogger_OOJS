@@ -111,6 +111,7 @@ function FroggerGameController(global, enemies, player) {
         lastTime = Date.now();
         gameOver = false;
         viewManager.clearScreen();
+        stateView.clearEndGame();
     };
 }
 
