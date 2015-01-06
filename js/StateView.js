@@ -25,7 +25,13 @@ function StateView(player, enemies) {
 		overlayCtx.drawImage(Resources.get('images/restart-btn.png'),restartX,restartY);
 		buttons["restart"].setDimensions(restartX,restartY,181,56);
 		buttons["restart"].enabled = true;
-		buttons["restart"].setFunction = func;
+		buttons["restart"].setFunction(func);
+	};
+
+	this.clearEndGame = function() {
+		Object.keys(buttons).forEach(function(id){
+			buttons[id].enabled == false;
+		});
 	};
 
 	var handleButtons = function(e) {
@@ -33,7 +39,7 @@ function StateView(player, enemies) {
 			mouse = getMouse(e);
 			if (buttons[id].enabled && 
 				buttons[id].contains(mouse.x,mouse.y)){
-				console.log("click");
+				buttons[id].func();
 			}
 		})
 	};

@@ -50,7 +50,6 @@ function FroggerGameController(global, enemies, player) {
 
         if (viewManager.loaded){
             self.reset();
-            lastTime = Date.now();
             self.main();
         }
         else{
@@ -70,8 +69,10 @@ function FroggerGameController(global, enemies, player) {
     }
 
     this.endGame = function(){
-        console.log("game over");
-        stateView.showEndGame();
+        console.log("WHHYYY");
+        stateView.showEndGame(function(){
+            self.startGame();
+        });
     }
 
     this.updateEntities = function(dt){
@@ -102,12 +103,14 @@ function FroggerGameController(global, enemies, player) {
         };
         console.log(e.keyCode);
         player.handleInput(playerKeys[e.keyCode]);
-    }
+    };
 
     this.reset = function() {
-        /**
-            TODO: this will be used for cleanup if a new game is to be started
-        **/
+        console.log("resetting");
+        player.reSpawn();
+        lastTime = Date.now();
+        gameOver = false;
+        viewManager.clearScreen();
     };
 }
 

@@ -48,10 +48,8 @@ Enemy.prototype.update = function(dt) {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(){
-    this.lives = 3;
-    this.y_offset = -35; // 25 pixels to center feet in tiles
-    this.row = 5;
-    this.col = 2;
+    this.y_offset = -35; // 35 pixels to center feet in tiles
+    this.reSpawn();
     Moveable.call(this, 'images/char-boy.png', this.row, this.col,98,101);
     Player.prototype.constructor = Player;
 }
@@ -59,6 +57,13 @@ Player.prototype = Object.create(Moveable.prototype);
 
 Player.prototype.hit = function() {
     this.lives -= 1;
+    this.row = 5;
+    this.col = 2;
+    this.moveTo(this.row,this.col,this.y_offset);
+}
+
+Player.prototype.reSpawn = function(){
+    this.lives = 3;
     this.row = 5;
     this.col = 2;
     this.moveTo(this.row,this.col,this.y_offset);
